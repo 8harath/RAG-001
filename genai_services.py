@@ -2,27 +2,33 @@ import os
 import tiktoken
 from typing import List
 from openai import OpenAI
+import streamlit as st
 
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=".env")
 
 # Set OpenAI client with Gemini API configuration
-# You need to get your Gemini API key
-
+# You need to get your Gemini API key from Google AI Studio
 openai_client = OpenAI(
     api_key=os.getenv("MODEL_API_KEY"),
-    base_url=os.getenv("MODEL_BASE_URL")
+    base_url=os.getenv("MODEL_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/")
 )
 
 
 def call_llm(messages: List[dict]) -> str:
-    """Helper function to call Gemini API"""
-    response = openai_client.chat.completions.create(
-        model=os.getenv("MODEL_NAME"),
-        messages=messages,
-    )
-    return response.choices[0].message.content
+    """Helper function to call Gemini API through OpenAI-compatible interface"""
+    try:
+        response = openai_client.chat.completions.create(
+            model=os.getenv("MODEL_NAME", "gemini-2.0-flash-exp"),
+            messages=messages,
+            temperature=0.7,
+            max_tokens=1000
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        st.error(f"Error calling Gemini API: {str(e)}")
+        return "Sorry, I encountered an error while processing your request."
 
 
 def summarize_text(text: str) -> str:
