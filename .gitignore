@@ -1,11 +1,27 @@
 # Virtual Environment
 .venv
+venv/
 
 # Chroma DB
-chroma_db
+chroma_db/
 
 # Temporary files
-__pycache__
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.tmp
 
 # Environment variables
 .env
+
+# Vercel
+.vercel
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS files
+.DS_Store
+Thumbs.db
