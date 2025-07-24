@@ -1,6 +1,0 @@
-streamlit
-openai
-tiktoken
-chromadb
-markitdown[all]
-python-dotenv
